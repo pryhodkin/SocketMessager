@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="Client.ChatListItemControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Client"
+             mc:Ignorable="d" Style="{Binding Path=IsSelected, Converter={StaticResource StyleConverter}, Mode=OneWay}"
+             HorizontalAlignment="Stretch">
+    <UserControl.Resources>
+        
+    </UserControl.Resources>
+
+
+    <Border x:Name="MainBorder"
+            Background="Transparent"
+            BorderBrush="LightGray"
+            BorderThickness="0"
+            Height="40"
+            Width="500"
+            CornerRadius="10"
+            >
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Border CornerRadius="35"
+                    Background="DarkCyan"
+                    Width="35"
+                    Height="35"
+                    Grid.Column="0"
+                    Margin="0 0 3 0">
+                <TextBlock
+                    Text="{Binding Path=Interlocutor.Username, Converter={StaticResource LetterConverter}, Mode=OneWay}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Foreground="Wheat"
+                    FontSize="20"
+                    />
+            </Border>
+            <TextBlock Text="{Binding Interlocutor.Username}"
+                       Grid.Column="1"
+                       VerticalAlignment="Center"
+                       Foreground="DimGray"
+                       FontSize="15"
+                       />
+        </Grid>
+    </Border>
+
+</UserControl>
