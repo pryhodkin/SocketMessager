@@ -14,7 +14,7 @@ namespace Protocol
         /// <summary>
         /// The unique name.
         /// </summary>
-        public string Username { get; private set; }
+        public string Username { get; set; }
 
         #endregion
 

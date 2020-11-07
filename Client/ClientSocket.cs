@@ -21,7 +21,8 @@ namespace Client
 
         public void Connect(string ipAddress, int port)
         {
-            socket.BeginConnect(new IPEndPoint(IPAddress.Parse(ipAddress), port), ConnectCallback, null);
+            var endPoint = new IPEndPoint(IPAddress.Parse(ipAddress), port);
+            socket.BeginConnect(endPoint, ConnectCallback, endPoint);
         }
 
         private void ConnectCallback(IAsyncResult result)
@@ -36,7 +37,8 @@ namespace Client
             else
             {
                 Thread.Sleep(1000);
-                Connect("127.0.0.1", 1029);
+                var endPoint = (IPEndPoint)result.AsyncState;
+                Connect(endPoint.Address.ToString(), endPoint.Port);
             }
         }
 

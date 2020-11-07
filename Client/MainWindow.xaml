@@ -10,7 +10,8 @@
         Width="800"
         MinWidth="553"
         MinHeight="300"
-        Closing="Window_Closing">
+        Closing="Window_Closing"
+        x:Name="mainWindow">
     <Window.Resources>
         <Style TargetType="ListBoxItem" x:Key="ChatListItemStyle">
             <Setter Property="Padding" Value="0"/>
@@ -21,7 +22,11 @@
                             <Border.Clip>
                                 <RectangleGeometry RadiusX="10" RadiusY="10" Rect="0 0 200 40"/>
                             </Border.Clip>
-                            <Button Padding="0" BorderThickness="0" Click="RadioButton_Click" Cursor="Hand">
+                            <Button Padding="0"
+                                    BorderThickness="0"
+                                    Command="{Binding Messager.SelectChatCommand, ElementName=mainWindow}"
+                                    CommandParameter="{Binding Path=DataContext, RelativeSource={RelativeSource Self}}"
+                                    Cursor="Hand">
                                 <local:ChatListItemControl/>
                             </Button>
                         </Border>
@@ -29,8 +34,7 @@
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True"/>
             </Style.Triggers>
         </Style>
     </Window.Resources>
@@ -38,7 +42,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="8*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" MinWidth="130"/>
@@ -51,17 +55,22 @@
                  Grid.Row="0"
                  Grid.Column="0"
                  GotFocus="nicknameTextBox_GotFocus"
+                 VerticalAlignment="Center"
                  LostFocus="nicknameTextBox_LostFocus"
-                 FontFamily="Century Gothic"
                  Foreground="{StaticResource GreyBrush}"
+                 Style="{StaticResource BaseStyle}"
                  FontSize="18"
-                 Text="type your nickname..."/>
+                 BorderThickness="0"
+                 IsEnabled="{Binding Messager.IsConnected, Converter={StaticResource NotConverter}, Mode=OneWay}"
+                 Text="{Binding Messager.Me.Username}"/>
         
         <TextBlock x:Name="receiverTextBlock"
                    Grid.Row="0"
                    Grid.Column="2"
                    FontFamily="Century Gothic"
+                   VerticalAlignment="Center"
                    FontSize="18"
+                   Style="{StaticResource TextBlockStyle}"
                    Text="{Binding Messager.SelectedChat.Interlocutor.Username}"/>
 
         <!-- chats panel -->
@@ -71,6 +80,8 @@
         <ListBox Grid.Row="1"
                  Grid.Column="0"
                  ItemsSource="{Binding Messager.Chats}"
+                 BorderThickness="0"
+                 BorderBrush="Transparent"
                  x:Name="chatsList"
                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                  ScrollViewer.CanContentScroll="False"
@@ -78,14 +89,7 @@
 
 
         <!-- message panel -->
-        <Border Grid.Column="2" Grid.Row="1">
-            <Border.Background>
-
-                <ImageBrush ImageSource="chatbackground.jpg"
-                            TileMode="Tile" 
-                            ViewportUnits="Absolute"
-                            Viewport="0 0 600 600"/>
-            </Border.Background>
+        <Border Grid.Column="2" Grid.Row="1" Background="{StaticResource Brush2}">
             <ListBox
                  x:Name="messagesList"
                  ItemsSource="{Binding Messager.SelectedChat.Messages}"
@@ -101,12 +105,12 @@
         <Button x:Name="connectButton"
                 Grid.Row="2"
                 Grid.Column="0"
-                Foreground="{StaticResource BlackBrush}"
-                Background="{StaticResource GreenBrush}"
-                FontFamily="Century Gothic"
+                Style="{StaticResource ButtonStyle}"
+                Content="{Binding Messager.IsConnected, Converter={StaticResource ConnectDisconnectConverter}}"
+                Command="{Binding Messager.ConnectDisconnectCommand}"
                 FontSize="18"
-                Content="Connect" Click="connectButton_Click"
-                Cursor="Hand"/>
+                Cursor="Hand"
+                Margin="3"/>
 
         <Border Grid.Row="1" Grid.Column="0" BorderThickness="1" Opacity="1" BorderBrush="{StaticResource GreyBrush}">
         </Border>
@@ -117,34 +121,39 @@
                 Grid.Column="2"
                 Padding="3"
                 ClipToBounds="True"
-                Background="AliceBlue">
+                Background="{StaticResource Brush2}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-
-                <TextBox x:Name="messageTextBox"
+                <Border CornerRadius="20"
+                        Background="{StaticResource Brush3}"
+                        Margin="5">
+                    <TextBox x:Name="messageTextBox"
                          GotFocus="messageTextBox_GotFocus"
                          LostFocus="messageTextBox_LostFocus"
-                         FontFamily="Century Gothic"
-                         Foreground="{StaticResource GreyBrush}"
+                         Foreground="{StaticResource Brush2}"
                          FontSize="18"
-                         Text="type your message..."
+                         Text="{Binding Messager.MessageText}"
                          Grid.Column="0"
                          BorderThickness="0"
-                         Background="Transparent"/>
-                
+                         VerticalAlignment="Center"
+                         Background="Transparent"
+                         Style="{StaticResource BaseStyle}"
+                         Margin="20 0 0 0"/>
+                </Border>
                 <Button x:Name="sendButton"
                          Width="60"
                          Height="{Binding Path=Height, Source=messageTextBox}"
                          Content="Send"
-                         Background="MediumAquamarine"
                          Grid.Column="1"
-                         Click="sendButton_Click"
-                         FontFamily="Century Gothic"
+                         Command="{Binding Messager.SendCommand}"
+                         CommandParameter="{Binding Text, ElementName=messageTextBox}"
+                         Style="{StaticResource ButtonStyle}"
                          FontSize="18"
-                         IsEnabled="False"/>
+                         IsEnabled="True"
+                        Margin="0 5"/>
             </Grid>
         </Border>
 

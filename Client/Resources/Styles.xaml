@@ -40,11 +40,6 @@
                 </Setter.Value>
             </Setter>
         </Style.Setters>
-
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True"/>
-        </Style.Triggers>
-
     </Style>
 
     <!-- Style selector -->
@@ -57,24 +52,35 @@
     <Style TargetType="local:ChatListItemControl" x:Key="ChatListItemControlStyle">
 
         <Style.Setters>
-            <Setter Property="Background" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource Brush2}"/>
         </Style.Setters>
     </Style>
 
     <Style TargetType="local:ChatListItemControl" x:Key="SelectedChatListItemContolStyle">
 
         <Style.Setters>
-            <Setter Property="Background" Value="MediumAquamarine"/>
+            <Setter Property="Background" Value="{StaticResource Brush1}"/>
         </Style.Setters>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True"/>
+        </Style.Triggers>
 
     </Style>
 
-    <local:ListItemControlStyleSelector x:Key="ListItemControlStyleSelector"/>
 
     <!--#endregion-->
 
     <local:DateTimeToStringConverter x:Key="DateConverter"/>
     <local:FirstLetterConverter x:Key="LetterConverter"/>
     <local:SelectionToChatListItemControStyleConverter x:Key="StyleConverter"/>
+    <local:BoolReverseConverter x:Key="NotConverter"/>
+    <local:BoolToConnectButtonContentConverter x:Key="ConnectDisconnectConverter"/>
     
+    
+    
+    
+    <!-- true styles -->
+    
+    
+
 </ResourceDictionary>

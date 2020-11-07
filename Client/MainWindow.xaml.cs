@@ -38,7 +38,7 @@ namespace Client
         {
             if (nicknameTextBox.Text == "type your nickname...")
             {
-                nicknameTextBox.Foreground = (Brush)Application.Current.Resources["BlackBrush"];
+                nicknameTextBox.Foreground = (Brush)Application.Current.Resources["DarkGrayBrush"];
                 nicknameTextBox.Text = "";
             }
         }
@@ -47,7 +47,7 @@ namespace Client
         {
             if (nicknameTextBox.Text == "")
             {
-                nicknameTextBox.Foreground = Application.Current.Resources["GreyBrush"] as Brush;
+                nicknameTextBox.Foreground = Application.Current.Resources["Brush2"] as Brush;
                 nicknameTextBox.Text = "type your nickname...";
             }
         }
@@ -56,7 +56,7 @@ namespace Client
         {
             if (messageTextBox.Text == "type your message...")
             {
-                messageTextBox.Foreground = (Brush)Application.Current.Resources["BlackBrush"];
+                messageTextBox.Foreground = (Brush)Application.Current.Resources["DarkGrayBrush"];
                 messageTextBox.Text = "";
             }
         }
@@ -65,46 +65,12 @@ namespace Client
         {
             if (messageTextBox.Text == "")
             {
-                messageTextBox.Foreground = Application.Current.Resources["GreyBrush"] as Brush;
+                messageTextBox.Foreground = Application.Current.Resources["Brush2"] as Brush;
                 messageTextBox.Text = "type your message...";
             }
         }
 
         #endregion
-
-        private void connectButton_Click(object sender, RoutedEventArgs e)
-        {
-            var button = (Button)sender;
-            if (!Messager.IsConnected)
-            {
-                Messager.Socket.Connect("127.0.0.1", 1029);
-                Messager.Me = new User(nicknameTextBox.Text);
-                Messager.NotifyConnect(Messager.Me);
-                Messager.IsConnected = true;
-                button.Content = "Disconnect";
-                sendButton.IsEnabled = true;
-            }
-            else
-            {
-                Messager.NotifyDisconnect();
-                Messager.Socket.Disconnect();
-                Messager.IsConnected = false;
-                Messager.Chats.Clear();
-                Messager.SelectedChat = null;
-                button.Content = "Connect";
-
-                
-                 sendButton.IsEnabled = false;
-            }
-        }
-
-        private void sendButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (messageTextBox.Text == "type your message...") return;
-            Messager.Me = new User(nicknameTextBox.Text);
-            Messager.SendMessage(messageTextBox.Text);
-            messageTextBox.Text = "";
-        }
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {

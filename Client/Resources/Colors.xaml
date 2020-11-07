@@ -6,10 +6,18 @@
     <Color x:Key="green" R="130" G="225" B="206" A="255"/>
     <Color x:Key="grey" R="90" G="90" B="90" A="127"/>
     <Color x:Key="black" R="0" G="0" B="0" A="255"/>
+    <Color x:Key="darkGray" R="30" G="30" B="30" A="255"/>
 
     <!--Brushes-->
     <SolidColorBrush x:Key="GreenBrush" Color="{StaticResource green}"/>
     <SolidColorBrush x:Key="GreyBrush" Color="{StaticResource grey}"/>
     <SolidColorBrush x:Key="BlackBrush" Color="{StaticResource black}"/>
+    <SolidColorBrush x:Key="DarkGrayBrush" Color="{StaticResource darkGray}"/>
+    <SolidColorBrush x:Key="MediumAquamarineBrush" Color="MediumAquamarine"/>
 
+    <SolidColorBrush x:Key="Brush1" Color="#64A1A5"/>
+    <SolidColorBrush x:Key="Brush2" Color="#B4D8DA"/>
+    <SolidColorBrush x:Key="Brush3" Color="#F2F2F0"/>
+    <SolidColorBrush x:Key="Brush4" Color="#F7AE7E"/>
+    <SolidColorBrush x:Key="Brush5" Color="#E27E7E"/>
 </ResourceDictionary>

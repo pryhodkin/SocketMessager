@@ -2,8 +2,11 @@
 using Protocol;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.DirectoryServices.ActiveDirectory;
 using System.Linq;
 using System.Threading;
+using System.Windows;
+using System.Windows.Controls.Ribbon.Primitives;
 using System.Windows.Data;
 
 namespace Client
@@ -57,6 +60,24 @@ namespace Client
             }
         }
 
+        /// <summary>
+        /// Entered, but not sent message text.
+        /// </summary>
+        public string MessageText { get; set; }
+
+
+
+        #region Commands
+
+        public RelayCommand SendCommand { get; private set; }
+
+        public RelayCommand ConnectDisconnectCommand { get; private set; }
+        public RelayCommand SelectChatCommand { 
+            get;
+            private set; }
+
+        #endregion
+
         #endregion
 
         #region Constructor
@@ -67,12 +88,64 @@ namespace Client
         public MessagerViewModel()
         {
             Chats = new AsyncObservableCollection<ChatViewModel>();
-            Me = new User("");
+            Me = new User("type your nickname...");
             IsConnected = false;
             Socket = new ClientSocket();
             Socket.Handler += ReceiveMessage;
             SelectedChat = null;
+            MessageText = "type your message...";
             synchronizationContext = SynchronizationContext.Current;
+            SendCommand = new RelayCommand
+            (
+                obj =>
+                {
+                    SendMessage(MessageText);
+                    MessageText = "";
+                },
+                obj =>
+                {
+                    return true; /////////////////////////////
+                }
+            );
+            ConnectDisconnectCommand = new RelayCommand
+            (
+                obj =>
+                {
+                    if (!IsConnected)
+                    {
+                        Socket.Connect("127.0.0.1", 1029);
+                        Me = new User(Me.Username);
+                        NotifyConnect(Me);
+                        IsConnected = true;
+                    }
+                    else
+                    {
+                        NotifyDisconnect();
+                        Socket.Disconnect();
+                        IsConnected = false;
+                        Chats.Clear();
+                        SelectedChat = null;
+                    }
+                },
+                obj =>
+                {
+                    return true;
+                }
+            );
+            SelectChatCommand = new RelayCommand
+            (
+                obj =>
+                {
+                    var chat = (ChatViewModel)obj;
+                    SelectedChat = chat;
+                },
+                obj =>
+                {
+                    if (obj is null) return true;
+                    var chat = (ChatViewModel)obj;
+                    return !chat.IsSelected;
+                }
+            );
         }
 
         #endregion

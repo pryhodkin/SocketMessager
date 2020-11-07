@@ -25,7 +25,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Border CornerRadius="35"
-                    Background="DarkCyan"
+                    Background="{StaticResource Brush5}"
                     Width="35"
                     Height="35"
                     Grid.Column="0"
@@ -34,14 +34,14 @@
                     Text="{Binding Path=Interlocutor.Username, Converter={StaticResource LetterConverter}, Mode=OneWay}"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Foreground="Wheat"
+                    Foreground="{StaticResource Brush4}"
                     FontSize="20"
                     />
             </Border>
             <TextBlock Text="{Binding Interlocutor.Username}"
                        Grid.Column="1"
                        VerticalAlignment="Center"
-                       Foreground="DimGray"
+                       Foreground="{StaticResource DarkGrayBrush}"
                        FontSize="15"
                        />
         </Grid>
